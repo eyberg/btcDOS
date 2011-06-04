@@ -29,7 +29,8 @@ class Bot
       print detail.backtrace.join("\n")
     retry
     end
- 
+
+    puts "killing bot"
   end
 
   def log_output
