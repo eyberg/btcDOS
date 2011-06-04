@@ -1,0 +1,19 @@
+#!/usr/bin/ruby
+
+require 'rubygems'
+require 'dm-core'
+require 'dm-validations'
+require 'dm-aggregates'
+
+require 'irb'
+
+require 'db-config.rb'
+
+ROOT_DIR = File.dirname(__FILE__)
+
+# load in all of our models
+Dir.glob('models/**/*.rb').each do |f|
+  require f
+end
+
+IRB.start
