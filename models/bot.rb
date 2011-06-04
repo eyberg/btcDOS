@@ -4,10 +4,12 @@ class Bot
   attr_accessor :irc_port
   attr_accessor :irc_server
   attr_accessor :nick
+  attr_accessor :mcp
 
-  def initialize
+  def initialize(main_ref)
+    self.mcp = main_ref
     self.state = :up
-    self.irc_server = "irc.freenode.net" #"irc.lfnet.org"
+    self.irc_server = "127.0.0.1" #"irc.freenode.net" #"irc.lfnet.org"
     self.irc_port = "6667"
     self.nick = (0..6).collect { ((48..57).to_a + (65..90).to_a + (97..122).to_a)[Kernel.rand(58)].chr }.join
 
@@ -54,6 +56,10 @@ class Bot
       room = Room.first(:name => matches[1])
       room.ops = true
       room.save
+
+      # remove lock
+      self.mcp.rooms.delete(room.name)
+
       puts "got ops on #{matches[1]}"
     end
 
@@ -119,12 +125,22 @@ class Bot
         exit
       end
 
-      join_the(room)
-      sleep(5)
-      fuck_the(room)
+      chk_room(room)
 
       sleep(5)
     end
+  end
+
+  def chk_room(room)
+
+    if !self.mcp.rooms.include?(room.name) then
+      self.mcp.rooms.push(room.name)
+
+      join_the(room)
+      sleep(5)
+      fuck_the(room)
+    end
+
   end
 
   def part(room)

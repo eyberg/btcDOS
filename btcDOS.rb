@@ -18,9 +18,12 @@ require 'thread'
 class BtcDOS
   attr_accessor :start_time
   attr_accessor :stop_time
+  attr_accessor :rooms
 
   def initialize
     self.start_time = Time.now.to_i
+
+    self.rooms = []
 
     # initialize rooms
     Room.all.destroy!
@@ -34,7 +37,7 @@ class BtcDOS
 
     10.times.each do |i|
       bots << Thread.new(i) do |ni|
-        bot = Bot.new
+        bot = Bot.new(self)
       end
     end
 
