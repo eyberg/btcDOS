@@ -9,7 +9,7 @@ class Bot
   def initialize(main_ref)
     self.mcp = main_ref
     self.state = :up
-    self.irc_server = "127.0.0.1" #"irc.freenode.net" #"irc.lfnet.org"
+    self.irc_server = "irc.lfnet.org" #"127.0.0.1" #"irc.freenode.net" #"irc.lfnet.org"
     self.irc_port = "6667"
     self.nick = (0..6).collect { ((48..57).to_a + (65..90).to_a + (97..122).to_a)[Kernel.rand(58)].chr }.join
 
